@@ -13,6 +13,8 @@ import Inicio from './views/Inicio';
 import DetallesCliente from './views/DetallesCliente';
 import NuevoCliente from './views/NuevoCliente';
 
+import BarraSuperior from './components/ui/BarraSuperior';
+
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -40,7 +42,20 @@ const App = () => {
             headerTintColor: theme.colors.surface,
             headerTitleStyle: {fontWeight: 'bold'},
           }}>
-          <Stack.Screen name="Inicio" component={Inicio} />
+          <Stack.Screen
+            name="Inicio"
+            component={Inicio}
+            options={({navigation, route}) => ({
+              headerTitleAlign: 'center',
+              headerLeft: props => (
+                <BarraSuperior
+                  {...props}
+                  navigation={navigation}
+                  route={route}
+                />
+              ),
+            })}
+          />
           <Stack.Screen
             name="NuevoCliente"
             component={NuevoCliente}
