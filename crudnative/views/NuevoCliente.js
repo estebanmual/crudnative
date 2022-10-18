@@ -9,8 +9,10 @@ import {
   Portal,
 } from 'react-native-paper';
 import globalStyles from '../styles/global';
+import axios from 'axios';
 
-const NuevoCliente = () => {
+const NuevoCliente = props => {
+  const {navigation} = props;
   // Campos del formulario
   const [nombre, guardarNombre] = useState('');
   const [telefono, guardarTelefono] = useState('');
@@ -19,7 +21,7 @@ const NuevoCliente = () => {
   const [alerta, guardarAlerta] = useState(false);
 
   // Almacena el cliente en la base de datos
-  const guardarCliente = () => {
+  const guardarCliente = async () => {
     // Validar
     if (nombre === '' || telefono === '' || correo === '' || empresa === '') {
       guardarAlerta(true);
@@ -34,8 +36,18 @@ const NuevoCliente = () => {
     };
     console.log(cliente);
     // Guardar el cliente en la base de datos
+    try {
+      await axios.post('http://10.0.2.2:3000/clientes', cliente);
+    } catch (error) {
+      console.log(error);
+    }
     // Redireccionar
+    navigation.navigate('Inicio');
     // Limpiar el formulario
+    guardarNombre('');
+    guardarTelefono('');
+    guardarCorreo('');
+    guardarEmpresa('');
   };
 
   return (
