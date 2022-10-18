@@ -1,6 +1,13 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {TextInput, Button, Headline} from 'react-native-paper';
+import {
+  TextInput,
+  Button,
+  Headline,
+  Paragraph,
+  Dialog,
+  Portal,
+} from 'react-native-paper';
 import globalStyles from '../styles/global';
 
 const NuevoCliente = () => {
@@ -9,16 +16,23 @@ const NuevoCliente = () => {
   const [telefono, guardarTelefono] = useState('');
   const [correo, guardarCorreo] = useState('');
   const [empresa, guardarEmpresa] = useState('');
+  const [alerta, guardarAlerta] = useState(false);
 
   // Almacena el cliente en la base de datos
   const guardarCliente = () => {
     // Validar
     if (nombre === '' || telefono === '' || correo === '' || empresa === '') {
-      console.log('Todos los campos son obligatorios');
+      guardarAlerta(true);
       return;
     }
-    console.log('Guardando...');
     // Generar el cliente
+    const cliente = {
+      nombre,
+      telefono,
+      correo,
+      empresa,
+    };
+    console.log(cliente);
     // Guardar el cliente en la base de datos
     // Redireccionar
     // Limpiar el formulario
@@ -62,6 +76,18 @@ const NuevoCliente = () => {
         onPress={() => guardarCliente()}>
         Guardar Cliente
       </Button>
+
+      <Portal>
+        <Dialog visible={alerta} onDismiss={() => guardarAlerta(false)}>
+          <Dialog.Title>Error</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>Todos los campos son obligatorios</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => guardarAlerta(false)}>OK</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </View>
   );
 };
