@@ -1,14 +1,24 @@
 import React from 'react';
 import {View, StyleSheet, Alert} from 'react-native';
-import {Headline, Subheading, Text, Button} from 'react-native-paper';
+import {Headline, Subheading, Text, Button, FAB} from 'react-native-paper';
 import globalStyles from '../styles/global';
 
 const DetallesCliente = props => {
   const {navigation, route} = props;
-  const {nombre, telefono, correo, empresa} = route.params.item;
+  const {guardarConsultarAPI} = route.params;
+  const {nombre, telefono, correo, empresa, id} = route.params.item;
 
-  const eliminarContacto = () => {
-    console.log('Eliminando...');
+  const eliminarContacto = async () => {
+    const url = `http://10.0.2.2:3000/clientes/${id}`;
+    try {
+      await fetch(url, {
+        method: 'DELETE',
+      });
+      navigation.navigate('Inicio');
+      guardarConsultarAPI(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const mostrarConfirmacion = () => {
@@ -41,6 +51,16 @@ const DetallesCliente = props => {
         onPress={() => mostrarConfirmacion()}>
         Eliminar Cliente
       </Button>
+      <FAB
+        icon="pencil"
+        style={globalStyles.fab}
+        onPress={() =>
+          navigation.navigate('NuevoCliente', {
+            cliente: route.params.item,
+            guardarConsultarAPI,
+          })
+        }
+      />
     </View>
   );
 };

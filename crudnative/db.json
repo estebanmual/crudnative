@@ -1,18 +1,11 @@
 {
   "clientes": [
     {
-      "nombre": "Esteban",
+      "nombre": "Esteban Actualizado",
       "telefono": "4493230906",
       "correo": "correo@correo.com",
-      "empresa": "Código con Esteban",
+      "empresa": "Código con esteban",
       "id": 1
-    },
-    {
-      "nombre": "Esteban2",
-      "telefono": "4493230906",
-      "correo": "correo@correo.com",
-      "empresa": "Código con Esteban",
-      "id": 2
     }
   ]
 }

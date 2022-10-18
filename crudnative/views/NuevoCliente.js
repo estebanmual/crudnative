@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {
   TextInput,
@@ -21,6 +21,18 @@ const NuevoCliente = props => {
   const [empresa, guardarEmpresa] = useState('');
   const [alerta, guardarAlerta] = useState(false);
 
+  // Detectar si estamos editando o no
+  useEffect(() => {
+    if (route.params.cliente) {
+      const {nombre, telefono, correo, empresa} = route.params.cliente;
+      guardarNombre(nombre);
+      guardarTelefono(telefono);
+      guardarCorreo(correo);
+      guardarEmpresa(empresa);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Almacena el cliente en la base de datos
   const guardarCliente = async () => {
     // Validar
@@ -35,12 +47,23 @@ const NuevoCliente = props => {
       correo,
       empresa,
     };
-    console.log(cliente);
-    // Guardar el cliente en la base de datos
-    try {
-      await axios.post('http://10.0.2.2:3000/clientes', cliente);
-    } catch (error) {
-      console.log(error);
+    // Si estamos editando o creando un nuevo cliente
+    if (route.params.cliente) {
+      const {id} = route.params.cliente;
+      cliente.id = id;
+      const url = `http://10.0.2.2:3000/clientes/${id}`;
+      try {
+        await axios.put(url, cliente);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      // Guardar el cliente en la base de datos
+      try {
+        await axios.post('http://10.0.2.2:3000/clientes', cliente);
+      } catch (error) {
+        console.log(error);
+      }
     }
     // Redireccionar
     navigation.navigate('Inicio');
@@ -54,7 +77,9 @@ const NuevoCliente = props => {
 
   return (
     <View style={globalStyles.contenedor}>
-      <Headline style={globalStyles.titulo}>Añadir Nuevo Cliente</Headline>
+      <Headline style={globalStyles.titulo}>
+        {route.params.cliente ? 'Editar' : 'Añadir Nuevo'} Cliente
+      </Headline>
       <TextInput
         label="Nombre"
         placeholder="Esteban"

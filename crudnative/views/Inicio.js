@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {List, Headline, Button, FAB} from 'react-native-paper';
 import globalStyles from '../styles/global';
 
@@ -43,13 +43,18 @@ const Inicio = props => {
           <List.Item
             title={item.nombre}
             description={item.empresa}
-            onPress={() => navigation.navigate('DetallesCliente', {item})}
+            onPress={() =>
+              navigation.navigate('DetallesCliente', {
+                item,
+                guardarConsultarAPI,
+              })
+            }
           />
         )}
       />
       <FAB
         icon="plus"
-        style={styles.fab}
+        style={globalStyles.fab}
         onPress={() =>
           navigation.navigate('NuevoCliente', {guardarConsultarAPI})
         }
@@ -57,14 +62,5 @@ const Inicio = props => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  fab: {
-    position: 'absolute',
-    margin: 20,
-    right: 0,
-    bottom: 20,
-  },
-});
 
 export default Inicio;
