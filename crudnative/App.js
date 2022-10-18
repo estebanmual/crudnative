@@ -48,13 +48,13 @@ const App = () => {
               component={Inicio}
               options={({navigation, route}) => ({
                 headerTitleAlign: 'center',
-                headerLeft: props => (
+                /* headerLeft: props => (
                   <BarraSuperior
                     {...props}
                     navigation={navigation}
                     route={route}
                   />
-                ),
+                ), */
               })}
             />
             <Stack.Screen

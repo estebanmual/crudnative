@@ -12,7 +12,8 @@ import globalStyles from '../styles/global';
 import axios from 'axios';
 
 const NuevoCliente = props => {
-  const {navigation} = props;
+  const {navigation, route} = props;
+  const {guardarConsultarAPI} = route.params;
   // Campos del formulario
   const [nombre, guardarNombre] = useState('');
   const [telefono, guardarTelefono] = useState('');
@@ -48,6 +49,7 @@ const NuevoCliente = props => {
     guardarTelefono('');
     guardarCorreo('');
     guardarEmpresa('');
+    guardarConsultarAPI(true);
   };
 
   return (
