@@ -4,10 +4,25 @@ import {TextInput, Button, Headline} from 'react-native-paper';
 import globalStyles from '../styles/global';
 
 const NuevoCliente = () => {
+  // Campos del formulario
   const [nombre, guardarNombre] = useState('');
   const [telefono, guardarTelefono] = useState('');
   const [correo, guardarCorreo] = useState('');
   const [empresa, guardarEmpresa] = useState('');
+
+  // Almacena el cliente en la base de datos
+  const guardarCliente = () => {
+    // Validar
+    if (nombre === '' || telefono === '' || correo === '' || empresa === '') {
+      console.log('Todos los campos son obligatorios');
+      return;
+    }
+    console.log('Guardando...');
+    // Generar el cliente
+    // Guardar el cliente en la base de datos
+    // Redireccionar
+    // Limpiar el formulario
+  };
 
   return (
     <View style={globalStyles.contenedor}>
@@ -40,6 +55,13 @@ const NuevoCliente = () => {
         value={empresa}
         style={styles.input}
       />
+
+      <Button
+        icon="pencil-circle"
+        mode="contained"
+        onPress={() => guardarCliente()}>
+        Guardar Cliente
+      </Button>
     </View>
   );
 };
